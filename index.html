@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pajama Jammy Jam Tasks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -93,21 +94,23 @@
 
         .main-title {
             position: absolute;
-            top: 20px;
-            font-size: 36px;
+            top: 15px;
+            font-size: 48px;
             color: #d4af37;
-            font-weight: bold;
+            font-weight: normal;
+            font-family: 'Great Vibes', cursive;
             text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
             text-align: center;
         }
 
         .page-number {
             position: absolute;
-            top: 70px;
-            font-size: 28px;
+            bottom: 90px;
+            font-size: 18px;
             color: #d4af37;
             font-weight: bold;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            opacity: 0.8;
         }
 
         .envelope-container {
@@ -300,7 +303,7 @@
 
         .checkbox-container {
             position: absolute;
-            bottom: 100px;
+            bottom: 120px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -367,7 +370,7 @@
 
         .instruction {
             position: absolute;
-            top: 120px;
+            top: 100px;
             color: #d4af37;
             font-size: 16px;
             opacity: 0.9;
@@ -501,16 +504,16 @@
                     closeEnvelope();
                 }
                 
-                envelope.classList.add('toss-out-right');
+                envelope.classList.add('toss-out-left');
                 
                 setTimeout(() => {
                     currentIndex++;
                     updateContent();
-                    envelope.classList.remove('toss-out-right');
-                    envelope.classList.add('slide-in-left');
+                    envelope.classList.remove('toss-out-left');
+                    envelope.classList.add('slide-in');
                     
                     setTimeout(() => {
-                        envelope.classList.remove('slide-in-left');
+                        envelope.classList.remove('slide-in');
                     }, 500);
                 }, 500);
             }
@@ -525,16 +528,16 @@
                     closeEnvelope();
                 }
                 
-                envelope.classList.add('toss-out-left');
+                envelope.classList.add('toss-out-right');
                 
                 setTimeout(() => {
                     currentIndex--;
                     updateContent();
-                    envelope.classList.remove('toss-out-left');
-                    envelope.classList.add('slide-in');
+                    envelope.classList.remove('toss-out-right');
+                    envelope.classList.add('slide-in-left');
                     
                     setTimeout(() => {
-                        envelope.classList.remove('slide-in');
+                        envelope.classList.remove('slide-in-left');
                     }, 500);
                 }, 500);
             }
@@ -552,6 +555,8 @@
                 envelope.classList.add('open');
                 document.getElementById('instruction').textContent = 'Use arrows to navigate';
                 isOpen = true;
+            } else {
+                closeEnvelope();
             }
         });
 
