@@ -126,15 +126,23 @@
             transform: scale(1.02);
         }
 
-        .envelope.toss-out {
-            animation: tossOut 0.5s ease-out forwards;
+        .envelope.toss-out-left {
+            animation: tossOutLeft 0.5s ease-out forwards;
+        }
+
+        .envelope.toss-out-right {
+            animation: tossOutRight 0.5s ease-out forwards;
         }
 
         .envelope.slide-in {
             animation: slideIn 0.5s ease-out forwards;
         }
 
-        @keyframes tossOut {
+        .envelope.slide-in-left {
+            animation: slideInLeft 0.5s ease-out forwards;
+        }
+
+        @keyframes tossOutLeft {
             0% {
                 transform: translateX(0) translateY(0) rotate(0deg);
                 opacity: 1;
@@ -152,6 +160,24 @@
             }
         }
 
+        @keyframes tossOutRight {
+            0% {
+                transform: translateX(0) translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            30% {
+                transform: translateX(120px) translateY(-40px) rotate(25deg);
+            }
+            60% {
+                transform: translateX(500px) translateY(30px) rotate(60deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateX(900px) translateY(80px) rotate(95deg);
+                opacity: 0;
+            }
+        }
+
         @keyframes slideIn {
             0% {
                 transform: translateX(850px) translateY(-60px) rotate(35deg);
@@ -163,6 +189,25 @@
             }
             70% {
                 transform: translateX(-30px) translateY(-5px) rotate(-3deg);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateX(0) translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInLeft {
+            0% {
+                transform: translateX(-850px) translateY(-60px) rotate(-35deg);
+                opacity: 0;
+            }
+            40% {
+                transform: translateX(-200px) translateY(15px) rotate(-12deg);
+                opacity: 0.6;
+            }
+            70% {
+                transform: translateX(30px) translateY(-5px) rotate(3deg);
                 opacity: 0.9;
             }
             100% {
@@ -450,17 +495,22 @@
         function nextEnvelope() {
             if (currentIndex < messages.length - 1) {
                 const envelope = document.getElementById('envelope');
-                envelope.classList.add('toss-out');
+                
+                // Close envelope immediately if it's open
+                if (isOpen) {
+                    closeEnvelope();
+                }
+                
+                envelope.classList.add('toss-out-right');
                 
                 setTimeout(() => {
-                    closeEnvelope();
                     currentIndex++;
                     updateContent();
-                    envelope.classList.remove('toss-out');
-                    envelope.classList.add('slide-in');
+                    envelope.classList.remove('toss-out-right');
+                    envelope.classList.add('slide-in-left');
                     
                     setTimeout(() => {
-                        envelope.classList.remove('slide-in');
+                        envelope.classList.remove('slide-in-left');
                     }, 500);
                 }, 500);
             }
@@ -469,13 +519,18 @@
         function prevEnvelope() {
             if (currentIndex > 0) {
                 const envelope = document.getElementById('envelope');
-                envelope.classList.add('toss-out');
+                
+                // Close envelope immediately if it's open
+                if (isOpen) {
+                    closeEnvelope();
+                }
+                
+                envelope.classList.add('toss-out-left');
                 
                 setTimeout(() => {
-                    closeEnvelope();
                     currentIndex--;
                     updateContent();
-                    envelope.classList.remove('toss-out');
+                    envelope.classList.remove('toss-out-left');
                     envelope.classList.add('slide-in');
                     
                     setTimeout(() => {
