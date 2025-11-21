@@ -22,9 +22,88 @@
             padding: 20px;
         }
 
+        .password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .password-overlay.hidden {
+            display: none;
+        }
+
+        .password-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 10px;
+            border: 2px solid #d4af37;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .password-box h2 {
+            color: #d4af37;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .password-box input {
+            width: 250px;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #d4af37;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.9);
+            font-family: 'Courier New', monospace;
+        }
+
+        .password-box button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 16px;
+            background: #d4af37;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            transition: background 0.2s ease;
+        }
+
+        .password-box button:hover {
+            background: #e6c04f;
+        }
+
+        .password-error {
+            color: #ff6b6b;
+            margin-top: 10px;
+            text-align: center;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        .main-title {
+            position: absolute;
+            top: 20px;
+            font-size: 36px;
+            color: #d4af37;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+            text-align: center;
+        }
+
         .page-number {
             position: absolute;
-            top: 30px;
+            top: 70px;
             font-size: 28px;
             color: #d4af37;
             font-weight: bold;
@@ -174,6 +253,39 @@
             top: 50%;
         }
 
+        .checkbox-container {
+            position: absolute;
+            bottom: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+
+        .checkbox-container:hover {
+            opacity: 1;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-container label {
+            font-size: 14px;
+            color: #d4af37;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-container input[type="checkbox"]:checked + label {
+            color: #4a9b4a;
+            font-weight: bold;
+        }
+
         .navigation {
             position: absolute;
             bottom: 40px;
@@ -210,7 +322,7 @@
 
         .instruction {
             position: absolute;
-            top: 80px;
+            top: 120px;
             color: #d4af37;
             font-size: 16px;
             opacity: 0.9;
@@ -219,6 +331,16 @@
     </style>
 </head>
 <body>
+    <div class="password-overlay" id="passwordOverlay">
+        <div class="password-box">
+            <h2>Enter Password</h2>
+            <input type="password" id="passwordInput" placeholder="Password" />
+            <button onclick="checkPassword()">Enter</button>
+            <div class="password-error" id="passwordError"></div>
+        </div>
+    </div>
+
+    <div class="main-title">Pajama Jammy Jam - Tasks</div>
     <div class="page-number" id="pageNumber">1 / 5</div>
     <div class="instruction" id="instruction">Click the envelope to break the seal</div>
     
@@ -234,12 +356,20 @@
         </div>
     </div>
 
+    <div class="checkbox-container" id="checkboxContainer">
+        <input type="checkbox" id="taskCheckbox" onchange="handleCheckboxChange()">
+        <label for="taskCheckbox">Task completed</label>
+    </div>
+
     <div class="navigation">
         <button class="nav-btn" id="prevBtn" onclick="prevEnvelope()">←</button>
         <button class="nav-btn" id="nextBtn" onclick="nextEnvelope()">→</button>
     </div>
 
     <script>
+        // EDIT PASSWORD HERE
+        const correctPassword = "hello";
+        
         // EDIT YOUR WAX SEAL TEXT HERE
         const waxSealText = "PJs";
         
@@ -255,8 +385,52 @@
         let currentIndex = 0;
         let isOpen = false;
 
+        // Password check
+        function checkPassword() {
+            const input = document.getElementById('passwordInput');
+            const error = document.getElementById('passwordError');
+            
+            if (input.value === correctPassword) {
+                localStorage.setItem('pjj_authenticated', 'true');
+                document.getElementById('passwordOverlay').classList.add('hidden');
+                error.textContent = '';
+            } else {
+                error.textContent = 'Incorrect password';
+                input.value = '';
+            }
+        }
+
+        // Check if already authenticated
+        if (localStorage.getItem('pjj_authenticated') === 'true') {
+            document.getElementById('passwordOverlay').classList.add('hidden');
+        }
+
+        // Allow Enter key on password input
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        // Load checkbox state
+        function loadCheckboxState(index) {
+            const saved = localStorage.getItem(`pjj_task_${index}`);
+            return saved === 'true';
+        }
+
+        // Save checkbox state
+        function saveCheckboxState(index, checked) {
+            localStorage.setItem(`pjj_task_${index}`, checked);
+        }
+
         function updateContent() {
+            const isChecked = loadCheckboxState(currentIndex);
+            
             document.getElementById('letter').innerHTML = `<p>${messages[currentIndex]}</p>`;
+            
+            // Update checkbox
+            document.getElementById('taskCheckbox').checked = isChecked;
+            
             document.getElementById('pageNumber').textContent = `${currentIndex + 1} / ${messages.length}`;
             
             // Update wax seal text
@@ -266,6 +440,11 @@
             // Update button states
             document.getElementById('prevBtn').disabled = currentIndex === 0;
             document.getElementById('nextBtn').disabled = currentIndex === messages.length - 1;
+        }
+
+        function handleCheckboxChange() {
+            const checkbox = document.getElementById('taskCheckbox');
+            saveCheckboxState(currentIndex, checkbox.checked);
         }
 
         function nextEnvelope() {
