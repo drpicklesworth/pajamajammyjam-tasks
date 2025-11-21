@@ -432,6 +432,8 @@
 
         let currentIndex = 0;
         let isOpen = false;
+        let touchStartX = 0;
+        let touchEndX = 0;
 
         // Password check
         function checkPassword() {
@@ -559,6 +561,31 @@
                 closeEnvelope();
             }
         });
+
+        // Swipe detection
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50; // minimum distance for a swipe
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    // Swiped left - go to next
+                    nextEnvelope();
+                } else {
+                    // Swiped right - go to previous
+                    prevEnvelope();
+                }
+            }
+        }
 
         // Initialize
         updateContent();
