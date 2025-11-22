@@ -21,6 +21,7 @@
             justify-content: center;
             font-family: 'Courier New', monospace;
             padding: 20px;
+            padding-bottom: 120px;
         }
 
         .password-overlay {
@@ -105,7 +106,7 @@
 
         .page-number {
             position: absolute;
-            bottom: 90px;
+            bottom: 110px;
             font-size: 18px;
             color: #d4af37;
             font-weight: bold;
@@ -303,7 +304,7 @@
 
         .checkbox-container {
             position: absolute;
-            bottom: 120px;
+            bottom: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -336,7 +337,7 @@
 
         .navigation {
             position: absolute;
-            bottom: 40px;
+            bottom: 140px;
             display: flex;
             gap: 30px;
         }
@@ -376,16 +377,21 @@
             opacity: 0.9;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
+
         .instructions-footer {
-            margin-top: 40px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 800px;
             background: transparent;
-            border: none;
             border-top: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 20px 0 0 0;
-            color: #d4af37;
+            padding: 15px 20px 0;
             font-size: 12px;
-            opacity: 0.7;
             text-align: center;
+            line-height: 1.6;
+            opacity: 0.7;
         }
     </style>
 </head>
@@ -425,8 +431,8 @@
         <button class="nav-btn" id="nextBtn" onclick="nextEnvelope()">→</button>
     </div>
 
-    <div class="instructions-footer">
-        <strong>Instructions:</strong> Perform each of these task BEFORE the party. If your task involves taking a picture or video, please share it ahead of time by <a href="#" id="formLink">using this form</a> - Jason's assistant will then collect them and present them live during the party for Jason to judge.
+    <div class="instructions-footer" style="color: #e6c04f;">
+        <strong style="color: #d4af37;">Instructions:</strong> Perform each of these task BEFORE the party. If your task involves taking a picture or video, please share it ahead of time by <a href="#" id="formLink" style="color: #ffd700;">using this form</a> - Jason's assistant will then collect them and present them live during the party for Jason to judge.
     </div>
 
     <script>
