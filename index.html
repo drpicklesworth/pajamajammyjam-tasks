@@ -19,8 +19,6 @@
             background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             min-height: 100vh;
             min-height: 100dvh;
-            height: 100vh;
-            height: 100dvh;
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -28,12 +26,11 @@
             justify-content: center;
             font-family: 'Courier New', monospace;
             padding: 20px;
-            padding-bottom: 120px;
-            position: fixed;
-            overflow: hidden;
+            padding-bottom: 180px;
+            overflow-y: auto;
             /* iOS-specific safe area padding */
             padding-top: max(20px, env(safe-area-inset-top));
-            padding-bottom: max(120px, env(safe-area-inset-bottom));
+            padding-bottom: max(180px, env(safe-area-inset-bottom));
             padding-left: env(safe-area-inset-left);
             padding-right: env(safe-area-inset-right);
         }
@@ -393,19 +390,18 @@
         }
 
         .instructions-footer {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 800px;
-            background: transparent;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 12, 41, 0.95);
             border-top: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 15px 20px 0;
+            padding: 15px 20px;
             font-size: 12px;
             text-align: center;
             line-height: 1.6;
             opacity: 0.7;
+            z-index: 1000;
         }
     </style>
 </head>
