@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>Pajama Jammy Jam Tasks</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
@@ -15,6 +18,10 @@
         body {
             background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             min-height: 100vh;
+            min-height: 100dvh;
+            height: 100vh;
+            height: 100dvh;
+            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -22,6 +29,13 @@
             font-family: 'Courier New', monospace;
             padding: 20px;
             padding-bottom: 120px;
+            position: fixed;
+            overflow: hidden;
+            /* iOS-specific safe area padding */
+            padding-top: max(20px, env(safe-area-inset-top));
+            padding-bottom: max(120px, env(safe-area-inset-bottom));
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
         }
 
         .password-overlay {
@@ -432,7 +446,7 @@
     </div>
 
     <div class="instructions-footer" style="color: #e6c04f;">
-        <strong style="color: #d4af37;">Instructions:</strong> Perform each of these task BEFORE the party. If your task involves taking a picture or video, please share it ahead of time by <a href="https://forms.gle/hcLSiPskZVAcUWMU9" id="formLink" style="color: #ffd700;">using this form</a> - Jason's assistant will then collect them and present them live during the party for Jason to judge.
+        <strong style="color: #d4af37;">Instructions:</strong> Perform each of these task BEFORE the party. If your task involves taking a picture or video, please share it ahead of time by <a href="#" id="formLink" style="color: #ffd700;">using this form</a> - Jason's assistant will then collect them and present them live during the party for Jason to judge.
     </div>
 
     <script>
