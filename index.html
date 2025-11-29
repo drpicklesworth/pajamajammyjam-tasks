@@ -479,6 +479,13 @@
         
         // EDIT YOUR WAX SEAL TEXT HERE
         const waxSealText = "PJs";
+
+
+        // SPECIAL TASK - shown only when URL parameter matches
+        const specialTask = {
+        parameter: "Tom",  // URL parameter to check for (e.g., ?Tom)
+        task: "Take a video of yourself counting the number of M&M's in a bag."
+};
         
         // Tasks will be loaded from tasks.json
         let messages = [];
@@ -487,18 +494,30 @@
         let touchStartX = 0;
         let touchEndX = 0;
 
+        // Check if URL has special parameter
+        function hasSpecialParameter() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.has(specialTask.parameter);
+        }
+        
         // Load tasks from external file
         async function loadTasks() {
-            try {
-                const response = await fetch('tasks.json');
-                messages = await response.json();
-                updateContent();
-            } catch (error) {
-                console.error('Error loading tasks:', error);
-                messages = ['Error loading tasks. Please check tasks.json file.'];
-                updateContent();
+        try {
+            const response = await fetch('tasks.json');
+            messages = await response.json();
+            
+            // Add special task if URL parameter matches
+            if (hasSpecialParameter()) {
+                messages.push(specialTask.task);
             }
+            
+            updateContent();
+        } catch (error) {
+            console.error('Error loading tasks:', error);
+            messages = ['Error loading tasks. Please check tasks.json file.'];
+            updateContent();
         }
+    }
 
         // Password check
         function checkPassword() {
