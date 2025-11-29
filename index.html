@@ -508,7 +508,7 @@
             
             // Add special task if URL parameter matches
             if (hasSpecialParameter()) {
-                messages.push(specialTask.task);
+                messages.splice(messages.length - 1, 0, specialTask.task);
             }
             
             updateContent();
