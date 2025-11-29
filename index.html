@@ -371,6 +371,22 @@
             font-weight: bold;
         }
 
+        .submit-reminder {
+            font-size: 12px;
+            color: #4a9b4a;
+            text-align: center;
+            margin-top: 10px;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.3s ease, max-height 0.3s ease;
+        }
+        
+        .submit-reminder.show {
+            opacity: 1;
+            max-height: 50px;
+        }
+        
         .navigation {
             display: flex;
             gap: 30px;
@@ -459,7 +475,9 @@
                 <input type="checkbox" id="taskCheckbox" onchange="handleCheckboxChange()">
                 <label for="taskCheckbox">Task completed</label>
             </div>
-
+            
+            <div class="submit-reminder" id="submitReminder">📤 Remember to submit below!</div>
+            
             <div class="navigation">
                 <button class="nav-btn" id="prevBtn" onclick="prevEnvelope()">←</button>
                 <button class="nav-btn" id="nextBtn" onclick="nextEnvelope()">→</button>
@@ -566,6 +584,14 @@
             
             // Update checkbox
             document.getElementById('taskCheckbox').checked = isChecked;
+
+            // Show/hide submit reminder
+            const reminder = document.getElementById('submitReminder');
+            if (isChecked) {
+                reminder.classList.add('show');
+            } else {
+                reminder.classList.remove('show');
+            }
             
             document.getElementById('pageNumber').textContent = `${currentIndex + 1} / ${messages.length}`;
             
