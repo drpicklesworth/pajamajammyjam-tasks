@@ -586,19 +586,6 @@
             document.getElementById('taskCheckbox').checked = isChecked;
             
             document.getElementById('pageNumber').textContent = `${currentIndex + 1} / ${messages.length}`;
-            
-            // Update wax seal text
-            const sealElement = document.querySelector('.wax-seal');
-            sealElement.textContent = waxSealText;
-            
-            // Update button states
-            document.getElementById('prevBtn').disabled = currentIndex === 0;
-            document.getElementById('nextBtn').disabled = currentIndex === messages.length - 1;
-        }
-
-        function handleCheckboxChange() {
-            const checkbox = document.getElementById('taskCheckbox');
-            saveCheckboxState(currentIndex, checkbox.checked);
 
             // Show/hide submit reminder
             const reminder = document.getElementById('submitReminder');
@@ -608,7 +595,29 @@
             } else {
                 reminder.classList.remove('show');
             }
+            
+            // Update wax seal text
+            const sealElement = document.querySelector('.wax-seal');
+            sealElement.textContent = waxSealText;
+            
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentIndex === 0;
+            document.getElementById('nextBtn').disabled = currentIndex === messages.length - 1;
         }
+        
+        function handleCheckboxChange() {
+            const checkbox = document.getElementById('taskCheckbox');
+            saveCheckboxState(currentIndex, checkbox.checked);
+        
+            const reminder = document.getElementById('submitReminder');
+        
+            if (checkbox.checked) {
+                reminder.classList.add('show');
+            } else {
+                reminder.classList.remove('show');
+            }
+        }
+
 
         function nextEnvelope() {
             if (currentIndex < messages.length - 1) {
