@@ -476,7 +476,7 @@
                 <label for="taskCheckbox">Task completed</label>
             </div>
             
-            <div class="submit-reminder" id="submitReminder">📤 Remember to submit below!</div>
+            <div class="submit-reminder" id="submitReminder">📤 Remember to submit using info below!</div>
             
             <div class="navigation">
                 <button class="nav-btn" id="prevBtn" onclick="prevEnvelope()">←</button>
@@ -584,15 +584,6 @@
             
             // Update checkbox
             document.getElementById('taskCheckbox').checked = isChecked;
-
-            // Show/hide submit reminder
-            const reminder = document.getElementById('submitReminder');
-            
-            if (isChecked) {
-                reminder.classList.add('show');
-            } else {
-                reminder.classList.remove('show');
-            }
             
             document.getElementById('pageNumber').textContent = `${currentIndex + 1} / ${messages.length}`;
             
@@ -608,6 +599,15 @@
         function handleCheckboxChange() {
             const checkbox = document.getElementById('taskCheckbox');
             saveCheckboxState(currentIndex, checkbox.checked);
+
+            // Show/hide submit reminder
+            const reminder = document.getElementById('submitReminder');
+            
+            if (isChecked) {
+                reminder.classList.add('show');
+            } else {
+                reminder.classList.remove('show');
+            }
         }
 
         function nextEnvelope() {
